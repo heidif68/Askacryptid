@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 const FREE_LIMIT = 3;
 const REPO = "https://raw.githubusercontent.com/heidif68/Askacryptid/main/public/images";
