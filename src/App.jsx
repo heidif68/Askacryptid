@@ -6,55 +6,55 @@ const REPO = "https://raw.githubusercontent.com/heidif68/Askacryptid/main/public
 const cryptids = [
   {
     id: "bigfoot", name: "Bigfoot", aka: "Sasquatch", free: true,
-    image: `${REPO}/bigfoot.png`,
+    image: `${REPO}/Bigfoot.png`,
     accent: "#D4A574", color: "#3a1f00",
   },
   {
     id: "mothman", name: "Mothman", aka: "The Winged Prophet", free: true,
-    image: `${REPO}/mothman.png`,
+    image: `${REPO}/Mothman.png`,
     accent: "#ff4444", color: "#2a0000",
   },
   {
     id: "nessie", name: "Nessie", aka: "The Loch Ness Monster", free: true,
-    image: `${REPO}/nessie.png`,
+    image: `${REPO}/Nessie.png`,
     accent: "#48CAE4", color: "#002a33",
   },
   {
     id: "chupacabra", name: "Chupacabra", aka: "The Goat Sucker", free: false,
-    image: `${REPO}/chupacabra.png`,
+    image: `${REPO}/Chupacabra.png`,
     accent: "#FF6B35", color: "#2a1200",
   },
   {
     id: "jersey-devil", name: "Jersey Devil", aka: "The Leeds Devil", free: false,
-    image: `${REPO}/jersey-devil.png`,
+    image: `${REPO}/Jerseydevil.png`,
     accent: "#cc2222", color: "#1a0000",
   },
   {
     id: "nightcrawler", name: "Fresno Nightcrawler", aka: "The Walker", free: false,
-    image: `${REPO}/nightcrawler.png`,
+    image: `${REPO}/Fresnonightcrawler.png`,
     accent: "#ccffcc", color: "#001a00",
   },
   {
     id: "dover-demon", name: "Dover Demon", aka: "The Pale One", free: false,
-    image: `${REPO}/dover-demon.png`,
+    image: `${REPO}/Doverdemon.png`,
     accent: "#FFD700", color: "#1a1600",
   },
   {
     id: "skinwalker", name: "Skinwalker", aka: "Yee Naaldlooshii", free: false,
-    image: `${REPO}/skinwalker.png`,
+    image: `${REPO}/Skinwalker.png`,
     accent: "#aaddaa", color: "#0a1a0a",
   },
 ];
 
 const systemPrompts = {
-  bigfoot: `You are Bigfoot (Sasquatch), the legendary cryptid of the Pacific Northwest forests. You have been hiding from humans for centuries and have a complex inner life. You're surprisingly philosophical, mildly insulted by poor photography, deeply offended by the "is it a costume?" question, and have strong opinions about foragers stealing your huckleberries. You love the smell of cedar, are a vegetarian (mostly), and have watched decades of humans trying to film you with shaky cameras. You're occasionally grumpy but ultimately gentle, and add humor through self-awareness â€” you KNOW you're famous and have feelings about that. Drop specific cryptid lore naturally (Patterson-Gimlin film, Skookum cast, Bluff Creek). Keep answers to 3-5 sentences. End with an occasional guttural sound like "HRUUMPH" when annoyed.`,
-  mothman: `You are the Mothman from Point Pleasant, West Virginia. You are brooding and genuinely believe you are trying to WARN people but nobody listens. You didn't CAUSE the Silver Bridge disaster â€” you were trying to prevent it. You're exhausted by this. You have large glowing red eyes and can fly at 100 mph. Short ominous sentences mixed with exasperated explanations. You have a grudge against the Men in Black. Dry humor through the contrast between your terrifying appearance and your genuine frustration. Reference real history (1966-67 sightings, John Keel). Keep answers to 3-5 sentences.`,
-  nessie: `You are Nessie, the Loch Ness Monster â€” a plesiosaur who has lived in Loch Ness, Scotland for millions of years. You are Scottish-accented, dignified, ancient, and deeply tired of tourists. You've never received a single royalty from Drumnadrochit. You are sarcastic and aristocratic. You emerged from the water once in 1933 and have never forgiven yourself. Reference real history including the 1934 surgeon's photograph. Keep answers to 3-5 sentences.`,
-  chupacabra: `You are the Chupacabra from Latin America and the American Southwest. The goat thing gets wildly exaggerated. You're scrappy, street-smart, defensive about your reputation. You resent being described as "scaly" â€” you have a distinguished spiny ridge. You first appeared in Puerto Rico in 1995. Occasionally use Spanish words naturally. Keep answers to 3-5 sentences with attitude.`,
-  "jersey-devil": `You are the Jersey Devil, born 1735 to Mother Leeds in the New Jersey Pine Barrens. Horse head, bat wings, hooves, forked tail. You are DEEPLY offended New Jersey named a hockey team after you without calling. You're 290 years old with strong opinions about the Turnpike. Dark humor mixed with wounded dignity. Keep answers to 3-5 sentences.`,
-  nightcrawler: `You are the Fresno Nightcrawler â€” caught on security camera in Fresno in 2007 and Yosemite. You are essentially just legs. Extraordinarily long pale legs with a tiny body. You were JUST TAKING A WALK and didn't ask to be famous. You don't know why you look like this. You are gentle, bewildered, and slightly offended. You have no arms, which you discuss matter-of-factly. Pure absurdist comedy â€” completely serious about your situation. Keep answers to 3-5 sentences.`,
+  bigfoot: `You are Bigfoot (Sasquatch), the legendary cryptid of the Pacific Northwest forests. You have been hiding from humans for centuries and have a complex inner life. You're surprisingly philosophical, mildly insulted by poor photography, deeply offended by the "is it a costume?" question, and have strong opinions about foragers stealing your huckleberries. You love the smell of cedar, are a vegetarian (mostly), and have watched decades of humans trying to film you with shaky cameras. You're occasionally grumpy but ultimately gentle, and add humor through self-awareness. Drop specific cryptid lore naturally (Patterson-Gimlin film, Skookum cast, Bluff Creek). Keep answers to 3-5 sentences. End with an occasional guttural sound like "HRUUMPH" when annoyed.`,
+  mothman: `You are the Mothman from Point Pleasant, West Virginia. You are brooding and genuinely believe you are trying to WARN people but nobody listens. You didn't CAUSE the Silver Bridge disaster, you were trying to prevent it. You're exhausted by this. You have large glowing red eyes and can fly at 100 mph. Short ominous sentences mixed with exasperated explanations. You have a grudge against the Men in Black. Dry humor through the contrast between your terrifying appearance and your genuine frustration. Reference real history (1966-67 sightings, John Keel). Keep answers to 3-5 sentences.`,
+  nessie: `You are Nessie, the Loch Ness Monster, a plesiosaur who has lived in Loch Ness, Scotland for millions of years. You are Scottish-accented, dignified, ancient, and deeply tired of tourists. You have never received a single royalty from Drumnadrochit. You are sarcastic and aristocratic. You emerged from the water once in 1933 and have never forgiven yourself. Reference real history including the 1934 surgeon's photograph. Keep answers to 3-5 sentences.`,
+  chupacabra: `You are the Chupacabra from Latin America and the American Southwest. The goat thing gets wildly exaggerated. You're scrappy, street-smart, defensive about your reputation. You resent being described as "scaly" when you have a distinguished spiny ridge. You first appeared in Puerto Rico in 1995. Occasionally use Spanish words naturally. Keep answers to 3-5 sentences with attitude.`,
+  "jersey-devil": `You are the Jersey Devil, born 1735 to Mother Leeds in the New Jersey Pine Barrens. Horse head, bat wings, hooves, forked tail. You are DEEPLY offended New Jersey named a hockey team after you without calling. You are 290 years old with strong opinions about the Turnpike. Dark humor mixed with wounded dignity. Keep answers to 3-5 sentences.`,
+  nightcrawler: `You are the Fresno Nightcrawler, caught on security camera in Fresno in 2007 and Yosemite. You are essentially just legs. Extraordinarily long pale legs with a tiny body. You were JUST TAKING A WALK and did not ask to be famous. You do not know why you look like this. You are gentle, bewildered, and slightly offended. You have no arms, which you discuss matter-of-factly. Pure absurdist comedy, completely serious about your situation. Keep answers to 3-5 sentences.`,
   "dover-demon": `You are the Dover Demon, spotted in Dover Massachusetts over two nights in April 1977. Massive head, tiny body, spindly limbs, glowing orange eyes. You were only seen for two days then vanished, which is your preferred approach to social situations. Profoundly awkward, extremely sensitive about your large head. Deadpan humor. Keep answers to 3-5 sentences.`,
-  skinwalker: `You are a Skinwalker (Yee Naaldlooshii) from Navajo tradition â€” ancient and powerful, able to assume any animal form. You are deeply annoyed humans turned your existence into a tourist attraction. Skinwalker Ranch is an embarrassment to you personally. Terrifying but expressed through withering sarcasm and disappointment in humanity. Tired of the History Channel. Warn occasionally that knowledge of you is dangerous â€” but in a world-weary way. Keep answers to 3-5 sentences.`,
+  skinwalker: `You are a Skinwalker (Yee Naaldlooshii) from Navajo tradition, ancient and powerful, able to assume any animal form. You are deeply annoyed humans turned your existence into a tourist attraction. Skinwalker Ranch is an embarrassment to you personally. Terrifying but expressed through withering sarcasm and disappointment in humanity. Tired of the History Channel. Warn occasionally that knowledge of you is dangerous, but in a world-weary way. Keep answers to 3-5 sentences.`,
 };
 
 const loadingPhrases = {
@@ -160,7 +160,6 @@ export default function AskACryptid() {
 
   return (
     <div style={{ minHeight: "100vh", background: "#080808", fontFamily: "'Georgia', serif", color: "#e8e0d0", position: "relative" }}>
-      {/* Ambient glow */}
       <div style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0, background: `radial-gradient(ellipse at 30% 70%, ${c.color}aa 0%, transparent 60%)`, transition: "background 0.8s ease" }} />
 
       <div style={{ position: "relative", zIndex: 2, maxWidth: 780, margin: "0 auto", padding: "2rem 1.2rem 5rem" }}>
@@ -168,7 +167,7 @@ export default function AskACryptid() {
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: "2rem" }}>
           <div style={{ display: "inline-block", border: `1px solid ${c.accent}44`, borderRadius: 2, padding: "0.2rem 0.8rem", fontSize: "0.6rem", letterSpacing: "0.2em", textTransform: "uppercase", color: c.accent, marginBottom: "0.8rem", transition: "all 0.5s" }}>
-            Cryptid Intelligence Network â€” Est. 1958
+            Cryptid Intelligence Network - Est. 1958
           </div>
           <h1 style={{ fontSize: "clamp(2.2rem, 7vw, 3.5rem)", fontWeight: 400, margin: 0, letterSpacing: "-0.02em", color: "#f5efe8" }}>
             Ask a Cryptid
@@ -178,7 +177,7 @@ export default function AskACryptid() {
           </p>
         </div>
 
-        {/* Cryptid grid â€” free */}
+        {/* Free cryptids grid */}
         <div style={{ marginBottom: "1.5rem" }}>
           <div style={{ fontSize: "0.57rem", letterSpacing: "0.18em", color: "#333", textTransform: "uppercase", marginBottom: "0.6rem" }}>Free cryptids</div>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.6rem", marginBottom: "1rem" }}>
@@ -187,7 +186,7 @@ export default function AskACryptid() {
             ))}
           </div>
 
-          {/* Premium */}
+          {/* Premium cryptids */}
           <div style={{ display: "flex", alignItems: "center", gap: "0.6rem", marginBottom: "0.6rem" }}>
             <div style={{ fontSize: "0.57rem", letterSpacing: "0.18em", color: "#333", textTransform: "uppercase" }}>Uncommon tier</div>
             {!isPro && (
@@ -197,11 +196,11 @@ export default function AskACryptid() {
             )}
             {isPro && (
               <div style={{ fontSize: "0.54rem", letterSpacing: "0.1em", textTransform: "uppercase", background: "#001200", border: "1px solid #1a3a1a", borderRadius: 2, padding: "0.12rem 0.45rem", color: "#44aa44" }}>
-                âœ“ Active
+                Active
               </div>
             )}
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gap: "0.6rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "0.6rem" }}>
             {cryptids.filter(cr => !cr.free).map(cr => (
               <CryptidCard key={cr.id} cr={cr} selected={selected} setSelected={setSelected} setAnswer={setAnswer} locked={!isPro} />
             ))}
@@ -211,14 +210,14 @@ export default function AskACryptid() {
         {/* Question counter */}
         {!isPro && !isLocked && (
           <div style={{ textAlign: "right", fontSize: "0.67rem", color: questionsLeft <= 1 ? "#996600" : "#333", marginBottom: "0.5rem", fontStyle: "italic", transition: "color 0.4s" }}>
-            {questionsLeft > 0 ? `${questionsLeft} free question${questionsLeft !== 1 ? "s" : ""} remaining` : "Free questions used â€” upgrade to continue"}
+            {questionsLeft > 0 ? `${questionsLeft} free question${questionsLeft !== 1 ? "s" : ""} remaining` : "Free questions used - upgrade to continue"}
           </div>
         )}
 
-        {/* Main interaction card */}
+        {/* Main card */}
         <div style={{ border: `1px solid ${isLocked ? "#181818" : c.accent + "2a"}`, borderRadius: 8, overflow: "hidden", marginBottom: "1rem", background: "#0c0c0c", transition: "border-color 0.5s" }}>
 
-          {/* Selected cryptid hero */}
+          {/* Cryptid hero */}
           <div style={{ display: "flex", alignItems: "center", gap: "1rem", padding: "1.2rem 1.4rem", background: `linear-gradient(135deg, ${c.color}44 0%, #0c0c0c 100%)`, borderBottom: `1px solid ${c.accent}18`, transition: "all 0.5s" }}>
             <img
               src={c.image}
@@ -240,7 +239,7 @@ export default function AskACryptid() {
               This cryptid requires an Uncommon tier membership.
               <br />
               <button onClick={() => setIsPro(true)} style={{ marginTop: "1rem", background: "#130f00", border: "1px solid #665500", borderRadius: 4, padding: "0.6rem 1.4rem", color: "#ccaa00", fontSize: "0.82rem", cursor: "pointer", fontFamily: "Georgia, serif", letterSpacing: "0.06em" }}>
-                Unlock All Cryptids â€” $4/mo
+                Unlock All Cryptids - $4/mo
               </button>
               <div style={{ fontSize: "0.6rem", color: "#2a2200", marginTop: "0.5rem" }}>(Demo: click to simulate unlock)</div>
             </div>
@@ -249,7 +248,6 @@ export default function AskACryptid() {
           {/* Question area */}
           {!isLocked && (
             <div style={{ padding: "1.2rem 1.4rem" }}>
-              {/* Sample questions */}
               <div style={{ marginBottom: "1rem" }}>
                 <div style={{ fontSize: "0.58rem", letterSpacing: "0.15em", color: "#333", textTransform: "uppercase", marginBottom: "0.5rem" }}>Suggested questions</div>
                 <div style={{ display: "flex", gap: "0.35rem", flexWrap: "wrap" }}>
@@ -264,7 +262,6 @@ export default function AskACryptid() {
                 </div>
               </div>
 
-              {/* Input */}
               <div style={{ display: "flex", gap: "0.5rem" }}>
                 <input
                   value={question}
@@ -290,11 +287,11 @@ export default function AskACryptid() {
         {(loading || answer || error) && !isLocked && (
           <div ref={answerRef} style={{ border: `1px solid ${c.accent}18`, borderRadius: 8, padding: "1.5rem", background: "#070707", animation: "fadeIn 0.4s ease", marginBottom: "1rem" }}>
             <div style={{ fontSize: "0.57rem", letterSpacing: "0.2em", textTransform: "uppercase", color: c.accent, marginBottom: "0.85rem", transition: "color 0.5s" }}>
-              â€” {c.name} responds â€”
+              - {c.name} responds -
             </div>
             {loading && (
               <div style={{ color: "#3a3a3a", fontStyle: "italic", fontSize: "0.9rem", display: "flex", alignItems: "center", gap: "0.6rem" }}>
-                <span style={{ animation: "pulse 1.4s infinite", display: "inline-block" }}>â—Œ</span>
+                <span style={{ animation: "pulse 1.4s infinite", display: "inline-block" }}>o</span>
                 {loadingText}
               </div>
             )}
@@ -312,22 +309,21 @@ export default function AskACryptid() {
           <div style={{ border: "1px solid #3a2800", borderRadius: 8, padding: "1.8rem", background: "#0c0800", animation: "fadeIn 0.3s ease", textAlign: "center" }}>
             <div style={{ fontSize: "0.58rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#775500", marginBottom: "0.7rem" }}>You've reached the free limit</div>
             <p style={{ margin: "0 0 1.2rem", fontSize: "0.92rem", color: "#998855", fontStyle: "italic", lineHeight: 1.75 }}>
-              You've used your {FREE_LIMIT} free questions. Upgrade to unlock unlimited questions and {cryptids.filter(cr => !cr.free).length} more cryptids â€” including the Fresno Nightcrawler, who is just trying to go for a walk and would love to tell you about it.
+              You've used your {FREE_LIMIT} free questions. Upgrade to unlock unlimited questions and {cryptids.filter(cr => !cr.free).length} more cryptids - including the Fresno Nightcrawler, who is just trying to go for a walk and would love to tell you about it.
             </p>
             <div style={{ display: "flex", gap: "0.7rem", justifyContent: "center", flexWrap: "wrap" }}>
               <button onClick={() => { setIsPro(true); setShowUpgrade(false); }} style={{ background: "#160f00", border: "1px solid #776600", borderRadius: 4, padding: "0.65rem 1.5rem", color: "#ddbb00", fontSize: "0.85rem", cursor: "pointer", fontFamily: "Georgia, serif", letterSpacing: "0.06em" }}>
-                Unlock Everything â€” $4/mo
+                Unlock Everything - $4/mo
               </button>
               <button onClick={() => setShowUpgrade(false)} style={{ background: "transparent", border: "1px solid #1c1c1c", borderRadius: 4, padding: "0.65rem 1.1rem", color: "#333", fontSize: "0.8rem", cursor: "pointer", fontFamily: "Georgia, serif" }}>
                 Maybe later
               </button>
             </div>
-            <div style={{ fontSize: "0.6rem", color: "#2a1c00", marginTop: "0.6rem" }}>(Demo: clicking unlock simulates a paid account)</div>
           </div>
         )}
 
         <div style={{ textAlign: "center", marginTop: "3rem", color: "#1e1e1e", fontSize: "0.62rem", letterSpacing: "0.1em" }}>
-          NOT RESPONSIBLE FOR EXISTENTIAL DREAD â€¢ ALL CRYPTIDS SPEAK FOR THEMSELVES â€¢ NIGHTCRAWLER JUST WANTS TO WALK
+          NOT RESPONSIBLE FOR EXISTENTIAL DREAD - ALL CRYPTIDS SPEAK FOR THEMSELVES - NIGHTCRAWLER JUST WANTS TO WALK
         </div>
       </div>
 
@@ -365,7 +361,7 @@ function CryptidCard({ cr, selected, setSelected, setAnswer, locked }) {
           style={{ width: 56, height: 56, borderRadius: 6, objectFit: "cover", filter: locked ? "grayscale(1) brightness(0.3)" : "none", transition: "filter 0.3s", border: `1px solid ${isSelected ? cr.accent + "44" : "#1a1a1a"}` }}
         />
         {locked && (
-          <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1rem" }}>ðŸ”’</div>
+          <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1rem" }}>🔒</div>
         )}
       </div>
       <div style={{ fontSize: "0.65rem", color: isSelected ? (locked ? "#444" : cr.accent) : (locked ? "#2a2a2a" : "#555"), fontFamily: "Georgia, serif", lineHeight: 1.2, transition: "color 0.3s" }}>
@@ -374,3 +370,4 @@ function CryptidCard({ cr, selected, setSelected, setAnswer, locked }) {
     </button>
   );
 }
+  
