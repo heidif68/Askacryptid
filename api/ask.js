@@ -3,6 +3,12 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  const apiKey = process.env.ANTHROPIC_API_KEY;
+  
+  if (!apiKey) {
+    return res.status(500).json({ error: 'No API key found', detail: 'ANTHROPIC_API_KEY is not set' });
+  }
+
   const { system, messages } = req.body;
 
   try {
@@ -10,7 +16,7 @@ export default async function handler(req, res) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'x-api-key': process.env.ANTHROPIC_API_KEY,
+        'x-api-key': apiKey,
         'anthropic-version': '2023-06-01',
       },
       body: JSON.stringify({
@@ -22,8 +28,13 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
+    
+    if (data.error) {
+      return res.status(500).json({ error: data.error });
+    }
+    
     res.status(200).json(data);
   } catch (error) {
-    res.status(500).json({ error: 'API call failed' });
+    res.status(500).json({ error: error.message });
   }
 }
