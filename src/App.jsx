@@ -128,50 +128,49 @@ export default function AskACryptid() {
     <div style={{ minHeight: "100vh", background: "#080808", fontFamily: "'Georgia', serif", color: "#e8e0d0" }}>
       <div style={{ position: "fixed", inset: 0, pointerEvents: "none", zIndex: 0, background: `radial-gradient(ellipse at 30% 70%, ${c.color}cc 0%, transparent 60%)`, transition: "background 0.8s ease" }} />
 
-      <div style={{ position: "relative", zIndex: 2, maxWidth: 860, margin: "0 auto", padding: "2.5rem 1.5rem 6rem" }}>
+      <div style={{ position: "relative", zIndex: 2, maxWidth: 1100, margin: "0 auto", padding: "3rem 2rem 6rem" }}>
 
         {/* AD SPACE TOP */}
-        <div style={{ textAlign: "center", marginBottom: "1.5rem", padding: "0.8rem", border: "1px dashed #222", borderRadius: 8, color: "#333", fontSize: "0.7rem", letterSpacing: "0.1em" }}>
-          AD SPACE
+        <div style={{ textAlign: "center", marginBottom: "2rem", padding: "1rem", border: "1px dashed #1e1e1e", borderRadius: 8, color: "#2a2a2a", fontSize: "0.75rem", letterSpacing: "0.1em" }}>
+          ADVERTISEMENT
         </div>
 
         {/* Header */}
-        <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
-          <div style={{ display: "inline-block", border: `1px solid ${c.accent}55`, borderRadius: 4, padding: "0.3rem 1rem", fontSize: "0.75rem", letterSpacing: "0.2em", textTransform: "uppercase", color: c.accent, marginBottom: "1rem", transition: "all 0.5s" }}>
+        <div style={{ textAlign: "center", marginBottom: "3rem" }}>
+          <div style={{ display: "inline-block", border: `1px solid ${c.accent}55`, borderRadius: 4, padding: "0.4rem 1.2rem", fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", color: c.accent, marginBottom: "1.2rem", transition: "all 0.5s" }}>
             Cryptid Intelligence Network - Est. 1958
           </div>
-          <h1 style={{ fontSize: "clamp(2.8rem, 8vw, 5rem)", fontWeight: 400, margin: 0, letterSpacing: "-0.02em", color: "#f5efe8", lineHeight: 1 }}>
+          <h1 style={{ fontSize: "clamp(3.5rem, 9vw, 6.5rem)", fontWeight: 400, margin: 0, letterSpacing: "-0.02em", color: "#f5efe8", lineHeight: 1 }}>
             Ask a Cryptid
           </h1>
-          <p style={{ color: "#666", fontSize: "1.1rem", marginTop: "0.8rem", fontStyle: "italic" }}>
+          <p style={{ color: "#666", fontSize: "1.3rem", marginTop: "1rem", fontStyle: "italic" }}>
             Direct line to the world's most elusive beings
           </p>
         </div>
 
         {/* Free cryptids */}
-        <div style={{ marginBottom: "2rem" }}>
-          <div style={{ fontSize: "0.7rem", letterSpacing: "0.18em", color: "#444", textTransform: "uppercase", marginBottom: "0.8rem" }}>Free cryptids</div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.8rem", marginBottom: "1.5rem" }}>
+        <div style={{ marginBottom: "2.5rem" }}>
+          <div style={{ fontSize: "0.8rem", letterSpacing: "0.2em", color: "#444", textTransform: "uppercase", marginBottom: "1rem" }}>Free cryptids</div>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.2rem", marginBottom: "2rem" }}>
             {cryptids.filter(cr => cr.free).map(cr => (
               <CryptidCard key={cr.id} cr={cr} selected={selected} setSelected={setSelected} setAnswer={setAnswer} locked={false} />
             ))}
           </div>
 
-          {/* Premium */}
-          <div style={{ display: "flex", alignItems: "center", gap: "0.8rem", marginBottom: "0.8rem" }}>
-            <div style={{ fontSize: "0.7rem", letterSpacing: "0.18em", color: "#444", textTransform: "uppercase" }}>Uncommon tier</div>
+          <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1rem" }}>
+            <div style={{ fontSize: "0.8rem", letterSpacing: "0.2em", color: "#444", textTransform: "uppercase" }}>Uncommon tier</div>
             {!isPro && (
-              <div style={{ fontSize: "0.65rem", letterSpacing: "0.1em", textTransform: "uppercase", background: "#120e00", border: "1px solid #3a2e00", borderRadius: 4, padding: "0.2rem 0.6rem", color: "#aa8800" }}>
+              <div style={{ fontSize: "0.7rem", letterSpacing: "0.1em", textTransform: "uppercase", background: "#120e00", border: "1px solid #3a2e00", borderRadius: 4, padding: "0.25rem 0.7rem", color: "#aa8800" }}>
                 Unlock for $4/mo
               </div>
             )}
             {isPro && (
-              <div style={{ fontSize: "0.65rem", letterSpacing: "0.1em", textTransform: "uppercase", background: "#001200", border: "1px solid #1a3a1a", borderRadius: 4, padding: "0.2rem 0.6rem", color: "#44aa44" }}>
+              <div style={{ fontSize: "0.7rem", letterSpacing: "0.1em", textTransform: "uppercase", background: "#001200", border: "1px solid #1a3a1a", borderRadius: 4, padding: "0.25rem 0.7rem", color: "#44cc44" }}>
                 Active
               </div>
             )}
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "0.8rem" }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1.2rem" }}>
             {cryptids.filter(cr => !cr.free).map(cr => (
               <CryptidCard key={cr.id} cr={cr} selected={selected} setSelected={setSelected} setAnswer={setAnswer} locked={!isPro} />
             ))}
@@ -180,72 +179,72 @@ export default function AskACryptid() {
 
         {/* Question counter */}
         {!isPro && !isLocked && (
-          <div style={{ textAlign: "right", fontSize: "0.85rem", color: questionsLeft <= 1 ? "#aa7700" : "#444", marginBottom: "0.8rem", fontStyle: "italic", transition: "color 0.4s" }}>
+          <div style={{ textAlign: "right", fontSize: "1rem", color: questionsLeft <= 1 ? "#cc8800" : "#444", marginBottom: "1rem", fontStyle: "italic", transition: "color 0.4s" }}>
             {questionsLeft > 0 ? `${questionsLeft} free question${questionsLeft !== 1 ? "s" : ""} remaining` : "Free questions used - upgrade to continue"}
           </div>
         )}
 
         {/* Main card */}
-        <div style={{ border: `1px solid ${isLocked ? "#1a1a1a" : c.accent + "33"}`, borderRadius: 12, overflow: "hidden", marginBottom: "1.2rem", background: "#0e0e0e", transition: "border-color 0.5s" }}>
+        <div style={{ border: `2px solid ${isLocked ? "#1a1a1a" : c.accent + "44"}`, borderRadius: 16, overflow: "hidden", marginBottom: "1.5rem", background: "#0e0e0e", transition: "border-color 0.5s" }}>
 
           {/* Hero */}
-          <div style={{ display: "flex", alignItems: "center", gap: "1.5rem", padding: "1.8rem 2rem", background: `linear-gradient(135deg, ${c.color}55 0%, #0e0e0e 100%)`, borderBottom: `1px solid ${c.accent}18`, transition: "all 0.5s" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "2rem", padding: "2.5rem 3rem", background: `linear-gradient(135deg, ${c.color}66 0%, #0e0e0e 100%)`, borderBottom: `1px solid ${c.accent}22`, transition: "all 0.5s" }}>
             <img
               src={c.image}
               alt={c.name}
-              style={{ width: 110, height: 110, borderRadius: 12, objectFit: "cover", border: `2px solid ${c.accent}44`, filter: isLocked ? "grayscale(1) brightness(0.3)" : "none", transition: "filter 0.5s", flexShrink: 0 }}
+              style={{ width: 160, height: 160, borderRadius: 16, objectFit: "cover", border: `2px solid ${c.accent}55`, filter: isLocked ? "grayscale(1) brightness(0.3)" : "none", transition: "filter 0.5s", flexShrink: 0 }}
             />
             <div style={{ flex: 1 }}>
-              <div style={{ display: "flex", alignItems: "center", gap: "0.8rem", flexWrap: "wrap" }}>
-                <h2 style={{ margin: 0, fontSize: "2rem", fontWeight: 400, color: isLocked ? "#333" : c.accent, transition: "color 0.5s" }}>{c.name}</h2>
-                {isLocked && <span style={{ fontSize: "0.7rem", color: "#554400", textTransform: "uppercase", border: "1px solid #332200", padding: "0.15rem 0.5rem", borderRadius: 4 }}>Locked</span>}
+              <div style={{ display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
+                <h2 style={{ margin: 0, fontSize: "2.8rem", fontWeight: 400, color: isLocked ? "#333" : c.accent, transition: "color 0.5s", lineHeight: 1 }}>{c.name}</h2>
+                {isLocked && <span style={{ fontSize: "0.8rem", color: "#554400", textTransform: "uppercase", border: "1px solid #332200", padding: "0.2rem 0.6rem", borderRadius: 4 }}>Locked</span>}
               </div>
-              <div style={{ color: "#555", fontSize: "0.95rem", fontStyle: "italic", marginTop: "0.3rem" }}>aka {c.aka}</div>
+              <div style={{ color: "#555", fontSize: "1.1rem", fontStyle: "italic", marginTop: "0.5rem" }}>aka {c.aka}</div>
             </div>
           </div>
 
           {/* Locked */}
           {isLocked && (
-            <div style={{ textAlign: "center", padding: "3rem 2rem", color: "#555", fontStyle: "italic", fontSize: "1.1rem" }}>
+            <div style={{ textAlign: "center", padding: "4rem 2rem", color: "#555", fontStyle: "italic", fontSize: "1.2rem" }}>
               This cryptid requires an Uncommon tier membership.
               <br />
-              <button onClick={() => setIsPro(true)} style={{ marginTop: "1.2rem", background: "#130f00", border: "1px solid #776600", borderRadius: 8, padding: "0.8rem 2rem", color: "#ddbb00", fontSize: "1rem", cursor: "pointer", fontFamily: "Georgia, serif", letterSpacing: "0.06em" }}>
+              <button onClick={() => setIsPro(true)} style={{ marginTop: "1.5rem", background: "#130f00", border: "2px solid #776600", borderRadius: 10, padding: "1rem 2.5rem", color: "#ddbb00", fontSize: "1.1rem", cursor: "pointer", fontFamily: "Georgia, serif", letterSpacing: "0.06em" }}>
                 Unlock All Cryptids - $4/mo
               </button>
-              <div style={{ fontSize: "0.7rem", color: "#2a2200", marginTop: "0.6rem" }}>(Demo: click to simulate unlock)</div>
+              <div style={{ fontSize: "0.75rem", color: "#2a2200", marginTop: "0.7rem" }}>(Demo: click to simulate unlock)</div>
             </div>
           )}
 
           {/* Question area */}
           {!isLocked && (
-            <div style={{ padding: "1.8rem 2rem" }}>
-              <div style={{ marginBottom: "1.2rem" }}>
-                <div style={{ fontSize: "0.7rem", letterSpacing: "0.15em", color: "#444", textTransform: "uppercase", marginBottom: "0.7rem" }}>Suggested questions</div>
-                <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+            <div style={{ padding: "2.5rem 3rem" }}>
+              <div style={{ marginBottom: "1.5rem" }}>
+                <div style={{ fontSize: "0.8rem", letterSpacing: "0.15em", color: "#444", textTransform: "uppercase", marginBottom: "0.8rem" }}>Suggested questions</div>
+                <div style={{ display: "flex", gap: "0.7rem", flexWrap: "wrap" }}>
                   {sampleQuestions[c.id].map(q => (
                     <button key={q}
                       onClick={() => { if (!hitLimit) { setQuestion(q); askCryptid(q); } else setShowUpgrade(true); }}
-                      style={{ background: "transparent", border: "1px solid #222", borderRadius: 6, padding: "0.4rem 0.9rem", color: "#666", fontSize: "0.85rem", cursor: hitLimit ? "not-allowed" : "pointer", fontFamily: "Georgia, serif", fontStyle: "italic", transition: "all 0.2s" }}
-                      onMouseEnter={e => { if (!hitLimit) { e.target.style.borderColor = c.accent + "66"; e.target.style.color = "#bbb"; }}}
-                      onMouseLeave={e => { e.target.style.borderColor = "#222"; e.target.style.color = "#666"; }}
+                      style={{ background: "transparent", border: "1px solid #252525", borderRadius: 8, padding: "0.6rem 1.2rem", color: "#777", fontSize: "0.95rem", cursor: hitLimit ? "not-allowed" : "pointer", fontFamily: "Georgia, serif", fontStyle: "italic", transition: "all 0.2s" }}
+                      onMouseEnter={e => { if (!hitLimit) { e.target.style.borderColor = c.accent + "66"; e.target.style.color = "#ccc"; }}}
+                      onMouseLeave={e => { e.target.style.borderColor = "#252525"; e.target.style.color = "#777"; }}
                     >{q}</button>
                   ))}
                 </div>
               </div>
 
-              <div style={{ display: "flex", gap: "0.8rem" }}>
+              <div style={{ display: "flex", gap: "1rem" }}>
                 <input
                   value={question}
                   onChange={e => setQuestion(e.target.value)}
                   onKeyDown={e => e.key === "Enter" && !loading && askCryptid()}
                   placeholder={hitLimit ? "Upgrade to ask more questions..." : `Ask ${c.name} anything...`}
                   disabled={hitLimit}
-                  style={{ flex: 1, background: "#111", border: "1px solid #222", borderRadius: 8, padding: "0.9rem 1.2rem", color: hitLimit ? "#333" : "#e8e0d0", fontSize: "1rem", fontFamily: "Georgia, serif", outline: "none" }}
+                  style={{ flex: 1, background: "#111", border: "1px solid #252525", borderRadius: 10, padding: "1.1rem 1.5rem", color: hitLimit ? "#333" : "#e8e0d0", fontSize: "1.1rem", fontFamily: "Georgia, serif", outline: "none" }}
                 />
                 <button
                   onClick={() => hitLimit ? setShowUpgrade(true) : askCryptid()}
                   disabled={loading || (!hitLimit && !question.trim())}
-                  style={{ background: hitLimit ? "#130f00" : (loading ? "#111" : c.accent + "22"), border: `2px solid ${hitLimit ? "#3a2800" : (loading ? "#1a1a1a" : c.accent + "66")}`, borderRadius: 8, padding: "0.9rem 1.8rem", color: hitLimit ? "#886600" : (loading ? "#2a2a2a" : c.accent), fontSize: "1rem", cursor: loading ? "not-allowed" : "pointer", fontFamily: "Georgia, serif", whiteSpace: "nowrap", transition: "all 0.3s", fontWeight: 500 }}
+                  style={{ background: hitLimit ? "#130f00" : (loading ? "#111" : c.accent + "22"), border: `2px solid ${hitLimit ? "#3a2800" : (loading ? "#1a1a1a" : c.accent + "77")}`, borderRadius: 10, padding: "1.1rem 2.5rem", color: hitLimit ? "#886600" : (loading ? "#2a2a2a" : c.accent), fontSize: "1.1rem", cursor: loading ? "not-allowed" : "pointer", fontFamily: "Georgia, serif", whiteSpace: "nowrap", transition: "all 0.3s", fontWeight: 500 }}
                 >
                   {loading ? "..." : hitLimit ? "Upgrade" : "Ask"}
                 </button>
@@ -256,49 +255,49 @@ export default function AskACryptid() {
 
         {/* Answer */}
         {(loading || answer || error) && !isLocked && (
-          <div ref={answerRef} style={{ border: `1px solid ${c.accent}22`, borderRadius: 12, padding: "2rem", background: "#0a0a0a", animation: "fadeIn 0.4s ease", marginBottom: "1.5rem" }}>
-            <div style={{ fontSize: "0.7rem", letterSpacing: "0.2em", textTransform: "uppercase", color: c.accent, marginBottom: "1rem", transition: "color 0.5s" }}>
+          <div ref={answerRef} style={{ border: `1px solid ${c.accent}22`, borderRadius: 16, padding: "2.5rem 3rem", background: "#0a0a0a", animation: "fadeIn 0.4s ease", marginBottom: "2rem" }}>
+            <div style={{ fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", color: c.accent, marginBottom: "1.2rem", transition: "color 0.5s" }}>
               - {c.name} responds -
             </div>
             {loading && (
-              <div style={{ color: "#444", fontStyle: "italic", fontSize: "1rem", display: "flex", alignItems: "center", gap: "0.8rem" }}>
+              <div style={{ color: "#444", fontStyle: "italic", fontSize: "1.1rem", display: "flex", alignItems: "center", gap: "1rem" }}>
                 <span style={{ animation: "pulse 1.4s infinite", display: "inline-block" }}>o</span>
                 {loadingText}
               </div>
             )}
             {answer && !loading && (
-              <p style={{ margin: 0, fontSize: "1.15rem", lineHeight: 2, color: "#d4ccbc", fontStyle: "italic" }}>
+              <p style={{ margin: 0, fontSize: "1.3rem", lineHeight: 2, color: "#d4ccbc", fontStyle: "italic" }}>
                 "{answer}"
               </p>
             )}
-            {error && <p style={{ margin: 0, color: "#555", fontStyle: "italic", fontSize: "1rem" }}>{error}</p>}
+            {error && <p style={{ margin: 0, color: "#555", fontStyle: "italic", fontSize: "1.1rem" }}>{error}</p>}
           </div>
         )}
 
         {/* AD SPACE MIDDLE */}
-        <div style={{ textAlign: "center", marginBottom: "1.5rem", padding: "0.8rem", border: "1px dashed #222", borderRadius: 8, color: "#333", fontSize: "0.7rem", letterSpacing: "0.1em" }}>
-          AD SPACE
+        <div style={{ textAlign: "center", marginBottom: "2rem", padding: "1rem", border: "1px dashed #1e1e1e", borderRadius: 8, color: "#2a2a2a", fontSize: "0.75rem", letterSpacing: "0.1em" }}>
+          ADVERTISEMENT
         </div>
 
         {/* Upgrade prompt */}
         {showUpgrade && !isPro && (
-          <div style={{ border: "1px solid #3a2800", borderRadius: 12, padding: "2.5rem", background: "#0c0800", animation: "fadeIn 0.3s ease", textAlign: "center", marginBottom: "1.5rem" }}>
-            <div style={{ fontSize: "0.7rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#886600", marginBottom: "1rem" }}>You've reached the free limit</div>
-            <p style={{ margin: "0 0 1.5rem", fontSize: "1.1rem", color: "#aa9966", fontStyle: "italic", lineHeight: 1.8 }}>
+          <div style={{ border: "2px solid #3a2800", borderRadius: 16, padding: "3rem", background: "#0c0800", animation: "fadeIn 0.3s ease", textAlign: "center", marginBottom: "2rem" }}>
+            <div style={{ fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#886600", marginBottom: "1rem" }}>You've reached the free limit</div>
+            <p style={{ margin: "0 0 2rem", fontSize: "1.2rem", color: "#aa9966", fontStyle: "italic", lineHeight: 1.8 }}>
               You've used your {FREE_LIMIT} free questions. Upgrade to unlock unlimited questions and {cryptids.filter(cr => !cr.free).length} more cryptids - including the Fresno Nightcrawler, who is just trying to go for a walk and would love to tell you about it.
             </p>
             <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-              <button onClick={() => { setIsPro(true); setShowUpgrade(false); }} style={{ background: "#160f00", border: "2px solid #887700", borderRadius: 8, padding: "0.9rem 2rem", color: "#ffdd00", fontSize: "1rem", cursor: "pointer", fontFamily: "Georgia, serif", letterSpacing: "0.06em", fontWeight: 500 }}>
+              <button onClick={() => { setIsPro(true); setShowUpgrade(false); }} style={{ background: "#160f00", border: "2px solid #887700", borderRadius: 10, padding: "1.1rem 2.5rem", color: "#ffdd00", fontSize: "1.1rem", cursor: "pointer", fontFamily: "Georgia, serif", letterSpacing: "0.06em", fontWeight: 500 }}>
                 Unlock Everything - $4/mo
               </button>
-              <button onClick={() => setShowUpgrade(false)} style={{ background: "transparent", border: "1px solid #222", borderRadius: 8, padding: "0.9rem 1.5rem", color: "#444", fontSize: "0.95rem", cursor: "pointer", fontFamily: "Georgia, serif" }}>
+              <button onClick={() => setShowUpgrade(false)} style={{ background: "transparent", border: "1px solid #222", borderRadius: 10, padding: "1.1rem 2rem", color: "#444", fontSize: "1rem", cursor: "pointer", fontFamily: "Georgia, serif" }}>
                 Maybe later
               </button>
             </div>
           </div>
         )}
 
-        <div style={{ textAlign: "center", marginTop: "3rem", color: "#222", fontSize: "0.75rem", letterSpacing: "0.1em" }}>
+        <div style={{ textAlign: "center", marginTop: "4rem", color: "#222", fontSize: "0.8rem", letterSpacing: "0.1em" }}>
           NOT RESPONSIBLE FOR EXISTENTIAL DREAD - ALL CRYPTIDS SPEAK FOR THEMSELVES - NIGHTCRAWLER JUST WANTS TO WALK
         </div>
       </div>
@@ -308,7 +307,7 @@ export default function AskACryptid() {
         @keyframes pulse { 0%,100%{opacity:0.2} 50%{opacity:1} }
         * { box-sizing: border-box; }
         ::placeholder { color: #333; }
-        input:focus { border-color: #444 !important; }
+        input:focus { border-color: #555 !important; }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #080808; }
         ::-webkit-scrollbar-thumb { background: #222; }
@@ -324,23 +323,25 @@ function CryptidCard({ cr, selected, setSelected, setAnswer, locked }) {
       onClick={() => { setSelected(cr); setAnswer(""); }}
       style={{
         background: isSelected ? (locked ? "#111" : cr.color + "99") : "#0e0e0e",
-        border: `2px solid ${isSelected ? (locked ? "#333" : cr.accent + "77") : "#1a1a1a"}`,
-        borderRadius: 12, padding: "0.9rem 0.6rem", cursor: "pointer",
+        border: `2px solid ${isSelected ? (locked ? "#333" : cr.accent + "88") : "#1a1a1a"}`,
+        borderRadius: 16, padding: "1.2rem 1rem", cursor: "pointer",
         transition: "all 0.25s ease", textAlign: "center",
-        display: "flex", flexDirection: "column", alignItems: "center", gap: "0.6rem",
+        display: "flex", flexDirection: "column", alignItems: "center", gap: "0.8rem",
       }}
+      onMouseEnter={e => { if (!isSelected) e.currentTarget.style.borderColor = cr.accent + "44"; }}
+      onMouseLeave={e => { if (!isSelected) e.currentTarget.style.borderColor = "#1a1a1a"; }}
     >
       <div style={{ position: "relative" }}>
         <img
           src={cr.image}
           alt={cr.name}
-          style={{ width: 80, height: 80, borderRadius: 10, objectFit: "cover", filter: locked ? "grayscale(1) brightness(0.3)" : "none", transition: "filter 0.3s", border: `1px solid ${isSelected ? cr.accent + "55" : "#1a1a1a"}` }}
+          style={{ width: 130, height: 130, borderRadius: 12, objectFit: "cover", filter: locked ? "grayscale(1) brightness(0.3)" : "none", transition: "filter 0.3s", border: `2px solid ${isSelected ? cr.accent + "66" : "#1a1a1a"}` }}
         />
         {locked && (
-          <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "1.4rem" }}>🔒</div>
+          <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "2rem" }}>🔒</div>
         )}
       </div>
-      <div style={{ fontSize: "0.8rem", color: isSelected ? (locked ? "#444" : cr.accent) : (locked ? "#2a2a2a" : "#666"), fontFamily: "Georgia, serif", lineHeight: 1.3, transition: "color 0.3s", fontWeight: isSelected ? 500 : 400 }}>
+      <div style={{ fontSize: "0.95rem", color: isSelected ? (locked ? "#444" : cr.accent) : (locked ? "#2a2a2a" : "#777"), fontFamily: "Georgia, serif", lineHeight: 1.3, transition: "color 0.3s", fontWeight: isSelected ? 600 : 400 }}>
         {cr.name}
       </div>
     </button>
