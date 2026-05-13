@@ -380,7 +380,7 @@ export default function AskACryptid() {
             <div style={{ textAlign: "center", padding: "4rem 2rem", color: "#555", fontStyle: "italic", fontSize: "1.2rem" }}>
               This cryptid requires an Uncommon tier membership.
               <br />
-              <button onClick={() => setIsPro(true)} style={{ marginTop: "1.5rem", background: "#130f00", border: "2px solid #776600", borderRadius: 10, padding: "1rem 2.5rem", color: "#ddbb00", fontSize: "1.1rem", cursor: "pointer", fontFamily: "Georgia, serif", letterSpacing: "0.06em" }}>
+              <button onClick={() => window.location.href = "https://buy.stripe.com/eVqeVd4BleZ89HJ7Na7EQ00"} style={{ marginTop: "1.5rem", background: "#130f00", border: "2px solid #776600", borderRadius: 10, padding: "1rem 2.5rem", color: "#ddbb00", fontSize: "1.1rem", cursor: "pointer", fontFamily: "Georgia, serif", letterSpacing: "0.06em" }}>
                 Unlock All Cryptids - $4/mo
               </button>
               <div style={{ fontSize: "0.75rem", color: "#2a2200", marginTop: "0.7rem" }}>(Demo: click to simulate unlock)</div>
@@ -459,7 +459,7 @@ export default function AskACryptid() {
               You've used your {FREE_LIMIT} free questions. Upgrade to unlock unlimited questions and {cryptids.filter(cr => !cr.free).length} more cryptids - including the Fresno Nightcrawler, who is just out for a walk and has a lot of feelings about it.
             </p>
             <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-              <button onClick={() => { setIsPro(true); setShowUpgrade(false); }} style={{ background: "#160f00", border: "2px solid #887700", borderRadius: 10, padding: "1.1rem 2.5rem", color: "#ffdd00", fontSize: "1.1rem", cursor: "pointer", fontFamily: "Georgia, serif", letterSpacing: "0.06em", fontWeight: 500 }}>
+              <button onClick={() => window.location.href = "https://buy.stripe.com/eVqeVd4BleZ89HJ7Na7EQ00"} style={{ background: "#160f00", border: "2px solid #887700", borderRadius: 10, padding: "1.1rem 2.5rem", color: "#ffdd00", fontSize: "1.1rem", cursor: "pointer", fontFamily: "Georgia, serif", letterSpacing: "0.06em", fontWeight: 500 }}>
                 Unlock Everything - $4/mo
               </button>
               <button onClick={() => setShowUpgrade(false)} style={{ background: "transparent", border: "1px solid #222", borderRadius: 10, padding: "1.1rem 2rem", color: "#444", fontSize: "1rem", cursor: "pointer", fontFamily: "Georgia, serif" }}>
