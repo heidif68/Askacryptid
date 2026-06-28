@@ -1,5 +1,3 @@
-import { kv } from '@vercel/kv';
-
 const FREE_DAILY_LIMIT = 3;
 
 function getIP(req) {
@@ -15,6 +13,22 @@ function todayKey(ip) {
   return `questions:${ip}:${today}`;
 }
 
+async function kvGet(key) {
+  const url = `${process.env.KV_REST_API_URL}/get/${key}`;
+  const res = await fetch(url, {
+    headers: { Authorization: `Bearer ${process.env.KV_REST_API_TOKEN}` }
+  });
+  const data = await res.json();
+  return data.result ? parseInt(data.result) : 0;
+}
+
+async function kvSet(key, value, exSeconds) {
+  const url = `${process.env.KV_REST_API_URL}/set/${key}/${value}?ex=${exSeconds}`;
+  await fetch(url, {
+    headers: { Authorization: `Bearer ${process.env.KV_REST_API_TOKEN}` }
+  });
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
@@ -23,7 +37,7 @@ export default async function handler(req, res) {
   const { system, messages } = req.body;
   const ip = getIP(req);
   const key = todayKey(ip);
-  const count = (await kv.get(key)) || 0;
+  const count = await kvGet(key);
 
   if (count >= FREE_DAILY_LIMIT) {
     return res.status(429).json({
@@ -33,7 +47,7 @@ export default async function handler(req, res) {
     });
   }
 
-  await kv.set(key, count + 1, { ex: 86400 });
+  await kvSet(key, count + 1, 86400);
 
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {
