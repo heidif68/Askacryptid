@@ -22,7 +22,7 @@ async function kvGet(key) {
   return data.result ? parseInt(data.result) : 0;
 }
 
-module.exports = async function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== 'GET') return res.status(405).end();
   const ip = getIP(req);
   const key = todayKey(ip);
@@ -33,4 +33,4 @@ module.exports = async function handler(req, res) {
     limit: FREE_DAILY_LIMIT,
     limitReached: count >= FREE_DAILY_LIMIT,
   });
-};
+}
