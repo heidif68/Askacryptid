@@ -469,6 +469,8 @@ export default function AskACryptid() {
           </div>
         )}
 
+        <ContactForm />
+
         <div style={{ textAlign: "center", marginTop: "4rem", color: "#222", fontSize: "0.8rem", letterSpacing: "0.1em" }}>
           NOT RESPONSIBLE FOR EXISTENTIAL DREAD - ALL CRYPTIDS SPEAK FOR THEMSELVES - NIGHTCRAWLER JUST WANTS TO WALK
         </div>
@@ -484,6 +486,129 @@ export default function AskACryptid() {
         ::-webkit-scrollbar-track { background: #080808; }
         ::-webkit-scrollbar-thumb { background: #222; }
       `}</style>
+    </div>
+  );
+}
+
+function ContactForm() {
+  const [type, setType] = useState("contact");
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [message, setMessage] = useState("");
+  const [status, setStatus] = useState("idle"); // idle | sending | success | error
+
+  const submit = async (e) => {
+    e.preventDefault();
+    if (!message.trim() || status === "sending") return;
+    setStatus("sending");
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ type, name, email, message }),
+      });
+      if (!response.ok) throw new Error("Request failed");
+      setStatus("success");
+      setName("");
+      setEmail("");
+      setMessage("");
+    } catch (err) {
+      setStatus("error");
+    }
+  };
+
+  const inputStyle = {
+    width: "100%",
+    background: "#111",
+    border: "1px solid #252525",
+    borderRadius: 10,
+    padding: "0.9rem 1.2rem",
+    color: "#e8e0d0",
+    fontSize: "1rem",
+    fontFamily: "Georgia, serif",
+    outline: "none",
+    boxSizing: "border-box",
+  };
+
+  return (
+    <div style={{ border: "1px solid #1a1a1a", borderRadius: 16, padding: "2.5rem 3rem", background: "#0a0a0a", marginBottom: "2rem" }}>
+      <div style={{ fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#666", marginBottom: "1.5rem" }}>
+        Contact / Suggest a Cryptid
+      </div>
+
+      <div style={{ display: "flex", gap: "0.7rem", marginBottom: "1.5rem" }}>
+        {[{ id: "contact", label: "General feedback" }, { id: "suggestion", label: "Suggest a cryptid" }].map(opt => (
+          <button
+            key={opt.id}
+            type="button"
+            onClick={() => setType(opt.id)}
+            style={{
+              background: type === opt.id ? "#1a1500" : "transparent",
+              border: `1px solid ${type === opt.id ? "#554400" : "#252525"}`,
+              borderRadius: 8,
+              padding: "0.5rem 1rem",
+              color: type === opt.id ? "#ddbb00" : "#777",
+              fontSize: "0.9rem",
+              cursor: "pointer",
+              fontFamily: "Georgia, serif",
+            }}
+          >
+            {opt.label}
+          </button>
+        ))}
+      </div>
+
+      <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
+        <div style={{ display: "flex", gap: "1rem", flexWrap: "wrap" }}>
+          <input
+            value={name}
+            onChange={e => setName(e.target.value)}
+            placeholder="Name (optional)"
+            maxLength={200}
+            style={{ ...inputStyle, flex: "1 1 200px" }}
+          />
+          <input
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+            placeholder="Email (optional, for a reply)"
+            type="email"
+            style={{ ...inputStyle, flex: "1 1 200px" }}
+          />
+        </div>
+        <textarea
+          value={message}
+          onChange={e => setMessage(e.target.value)}
+          placeholder={type === "suggestion" ? "Which cryptid should we add?" : "What's on your mind?"}
+          rows={4}
+          maxLength={5000}
+          required
+          style={{ ...inputStyle, resize: "vertical", fontFamily: "Georgia, serif" }}
+        />
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+          <button
+            type="submit"
+            disabled={status === "sending" || !message.trim()}
+            style={{
+              background: "#111",
+              border: "2px solid #333",
+              borderRadius: 10,
+              padding: "0.9rem 2rem",
+              color: "#ccc",
+              fontSize: "1rem",
+              cursor: status === "sending" ? "not-allowed" : "pointer",
+              fontFamily: "Georgia, serif",
+            }}
+          >
+            {status === "sending" ? "Sending..." : "Send"}
+          </button>
+          {status === "success" && (
+            <span style={{ color: "#44cc44", fontStyle: "italic", fontSize: "0.95rem" }}>Message sent - thank you.</span>
+          )}
+          {status === "error" && (
+            <span style={{ color: "#cc4444", fontStyle: "italic", fontSize: "0.95rem" }}>Something went wrong. Please try again later.</span>
+          )}
+        </div>
+      </form>
     </div>
   );
 }
