@@ -242,6 +242,18 @@ export default function AskACryptid() {
     setShowUpgrade(false);
   }, [selected]);
 
+  // The daily count lives server-side (per IP), so refreshing or clearing
+  // local storage can't reset it — sync local UI state to it on load.
+  useEffect(() => {
+    fetch("/api/status")
+      .then(res => res.json())
+      .then(data => {
+        setIsPro(!!data.isPremium);
+        setQuestionsUsed(data.questionsUsed ?? 0);
+      })
+      .catch(() => {});
+  }, []);
+
   const startLoading = (id) => {
     const phrases = loadingPhrases[id];
     let i = 0;
@@ -277,6 +289,17 @@ export default function AskACryptid() {
         }),
       });
       const data = await response.json();
+
+      if (response.status === 429) {
+        stopLoading();
+        setQuestionsUsed(data.limit ?? FREE_LIMIT);
+        setShowUpgrade(true);
+        return;
+      }
+      if (!response.ok) {
+        throw new Error(data.error || "Request failed");
+      }
+
       const text = data.content?.map(b => b.text || "").join("") || "...I have nothing to say to you.";
       stopLoading();
       setAnswer(text);
@@ -383,7 +406,6 @@ export default function AskACryptid() {
               <button onClick={() => window.location.href = "https://buy.stripe.com/eVqeVd4BleZ89HJ7Na7EQ00"} style={{ marginTop: "1.5rem", background: "#130f00", border: "2px solid #776600", borderRadius: 10, padding: "1rem 2.5rem", color: "#ddbb00", fontSize: "1.1rem", cursor: "pointer", fontFamily: "Georgia, serif", letterSpacing: "0.06em" }}>
                 Unlock All Cryptids - $4/mo
               </button>
-              <div style={{ fontSize: "0.75rem", color: "#2a2200", marginTop: "0.7rem" }}>(Demo: click to simulate unlock)</div>
             </div>
           )}
 
