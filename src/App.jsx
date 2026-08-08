@@ -518,7 +518,13 @@ export default function AskACryptid() {
 
         <ContactForm />
 
-        <div style={{ textAlign: "center", marginTop: "4rem", color: "#222", fontSize: "0.8rem", letterSpacing: "0.1em" }}>
+        <div style={{ textAlign: "center", marginTop: "3rem" }}>
+          <a href="/privacy" className="privacy-link" style={{ color: "#444", fontSize: "0.8rem", letterSpacing: "0.1em", textDecoration: "none", fontStyle: "italic" }}>
+            Privacy Policy
+          </a>
+        </div>
+
+        <div style={{ textAlign: "center", marginTop: "1rem", color: "#222", fontSize: "0.8rem", letterSpacing: "0.1em" }}>
           NOT RESPONSIBLE FOR EXISTENTIAL DREAD - ALL CRYPTIDS SPEAK FOR THEMSELVES - NIGHTCRAWLER JUST WANTS TO WALK
         </div>
       </div>
@@ -532,6 +538,7 @@ export default function AskACryptid() {
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #080808; }
         ::-webkit-scrollbar-thumb { background: #222; }
+        .privacy-link:hover { color: #999 !important; }
       `}</style>
     </div>
   );
@@ -636,7 +643,7 @@ function ContactForm() {
   };
 
   return (
-    <div style={{ border: "1px solid #1a1a1a", borderRadius: 16, padding: "2.5rem 3rem", background: "#0a0a0a", marginBottom: "2rem" }}>
+    <div id="contact" style={{ border: "1px solid #1a1a1a", borderRadius: 16, padding: "2.5rem 3rem", background: "#0a0a0a", marginBottom: "2rem" }}>
       <div style={{ fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#666", marginBottom: "1.5rem" }}>
         Contact / Suggest a Cryptid
       </div>
