@@ -1,7 +1,26 @@
+import { consumeQuestion, getClientIp } from './_lib/rateLimit.js';
+import { isPremiumRequest } from './_lib/premium.js';
+import { isOwnerBypass } from './_lib/ownerBypass.js';
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' });
   }
+
+  const bypassesLimit = isPremiumRequest(req) || isOwnerBypass(req);
+
+  if (!bypassesLimit) {
+    const ip = getClientIp(req);
+    const { allowed, questionsUsed, limit } = await consumeQuestion(ip);
+    if (!allowed) {
+      return res.status(429).json({
+        error: 'daily_limit_reached',
+        questionsUsed,
+        limit,
+      });
+    }
+  }
+
   const { system, messages } = req.body;
   try {
     const response = await fetch('https://api.anthropic.com/v1/messages', {

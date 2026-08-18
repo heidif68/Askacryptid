@@ -3,6 +3,15 @@ import React, { useState, useRef, useEffect } from "react";
 const FREE_LIMIT = 3;
 const REPO = "https://raw.githubusercontent.com/heidif68/Askacryptid/main/public";
 
+// Owner testing bypass: visit the site once with ?owner_key=<value matching
+// the OWNER_BYPASS_SECRET env var>, and it's remembered from then on.
+const OWNER_KEY_STORAGE = "askacryptid_owner_key";
+
+function ownerHeaders() {
+  const key = typeof window !== "undefined" ? window.localStorage.getItem(OWNER_KEY_STORAGE) : null;
+  return key ? { "x-owner-key": key } : {};
+}
+
 const cryptids = [
   { id: "bigfoot", name: "Bigfoot", aka: "Sasquatch", free: true, image: `${REPO}/Bigfoot.png`, accent: "#D4A574", color: "#3a1f00" },
   { id: "mothman", name: "Mothman", aka: "The Winged Prophet", free: true, image: `${REPO}/Mothman.png`, accent: "#ff6666", color: "#2a0000" },
@@ -242,6 +251,31 @@ export default function AskACryptid() {
     setShowUpgrade(false);
   }, [selected]);
 
+  // Owner testing bypass: pick up ?owner_key=... once, remember it, and
+  // scrub it from the URL bar.
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const ownerKey = params.get("owner_key");
+    if (ownerKey) {
+      window.localStorage.setItem(OWNER_KEY_STORAGE, ownerKey);
+      params.delete("owner_key");
+      const rest = params.toString();
+      window.history.replaceState({}, "", window.location.pathname + (rest ? `?${rest}` : ""));
+    }
+  }, []);
+
+  // The daily count lives server-side (per IP), so refreshing or clearing
+  // local storage can't reset it — sync local UI state to it on load.
+  useEffect(() => {
+    fetch("/api/status", { headers: ownerHeaders() })
+      .then(res => res.json())
+      .then(data => {
+        setIsPro(!!data.isPremium || !!data.isOwner);
+        setQuestionsUsed(data.questionsUsed ?? 0);
+      })
+      .catch(() => {});
+  }, []);
+
   const startLoading = (id) => {
     const phrases = loadingPhrases[id];
     let i = 0;
@@ -270,13 +304,24 @@ export default function AskACryptid() {
     try {
       const response = await fetch("/api/ask", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", ...ownerHeaders() },
         body: JSON.stringify({
           system: systemPrompts[selected.id],
           messages: [{ role: "user", content: questionText }],
         }),
       });
       const data = await response.json();
+
+      if (response.status === 429) {
+        stopLoading();
+        setQuestionsUsed(data.limit ?? FREE_LIMIT);
+        setShowUpgrade(true);
+        return;
+      }
+      if (!response.ok) {
+        throw new Error(data.error || "Request failed");
+      }
+
       const text = data.content?.map(b => b.text || "").join("") || "...I have nothing to say to you.";
       stopLoading();
       setAnswer(text);
@@ -383,7 +428,6 @@ export default function AskACryptid() {
               <button onClick={() => window.location.href = "https://buy.stripe.com/eVqeVd4BleZ89HJ7Na7EQ00"} style={{ marginTop: "1.5rem", background: "#130f00", border: "2px solid #776600", borderRadius: 10, padding: "1rem 2.5rem", color: "#ddbb00", fontSize: "1.1rem", cursor: "pointer", fontFamily: "Georgia, serif", letterSpacing: "0.06em" }}>
                 Unlock All Cryptids - $4/mo
               </button>
-              <div style={{ fontSize: "0.75rem", color: "#2a2200", marginTop: "0.7rem" }}>(Demo: click to simulate unlock)</div>
             </div>
           )}
 
@@ -438,9 +482,12 @@ export default function AskACryptid() {
               </div>
             )}
             {answer && !loading && (
-              <p style={{ margin: 0, fontSize: "1.3rem", lineHeight: 2, color: "#d4ccbc", fontStyle: "italic" }}>
-                "{answer}"
-              </p>
+              <>
+                <p style={{ margin: 0, fontSize: "1.3rem", lineHeight: 2, color: "#d4ccbc", fontStyle: "italic" }}>
+                  "{answer}"
+                </p>
+                <ShareButton text={answer} cryptidName={c.name} accent={c.accent} />
+              </>
             )}
             {error && <p style={{ margin: 0, color: "#555", fontStyle: "italic", fontSize: "1.1rem" }}>{error}</p>}
           </div>
@@ -471,7 +518,13 @@ export default function AskACryptid() {
 
         <ContactForm />
 
-        <div style={{ textAlign: "center", marginTop: "4rem", color: "#222", fontSize: "0.8rem", letterSpacing: "0.1em" }}>
+        <div style={{ textAlign: "center", marginTop: "3rem" }}>
+          <a href="/privacy" className="privacy-link" style={{ color: "#444", fontSize: "0.8rem", letterSpacing: "0.1em", textDecoration: "none", fontStyle: "italic" }}>
+            Privacy Policy
+          </a>
+        </div>
+
+        <div style={{ textAlign: "center", marginTop: "1rem", color: "#222", fontSize: "0.8rem", letterSpacing: "0.1em" }}>
           NOT RESPONSIBLE FOR EXISTENTIAL DREAD - ALL CRYPTIDS SPEAK FOR THEMSELVES - NIGHTCRAWLER JUST WANTS TO WALK
         </div>
       </div>
@@ -485,8 +538,67 @@ export default function AskACryptid() {
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #080808; }
         ::-webkit-scrollbar-thumb { background: #222; }
+        .privacy-link:hover { color: #999 !important; }
       `}</style>
     </div>
+  );
+}
+
+function ShareButton({ text, cryptidName, accent }) {
+  const [copied, setCopied] = useState(false);
+
+  const shareUrl = typeof window !== "undefined" ? `${window.location.origin}${window.location.pathname}` : "";
+  const shareText = `"${text}"\n\n— ${cryptidName}, Ask a Cryptid`;
+
+  const copyToClipboard = async () => {
+    const full = `${shareText}\n${shareUrl}`;
+    try {
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(full);
+      } else {
+        const textarea = document.createElement("textarea");
+        textarea.value = full;
+        textarea.style.position = "fixed";
+        textarea.style.opacity = "0";
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+      }
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      // Nothing sensible to do if the clipboard is unavailable too.
+    }
+  };
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({ title: `${cryptidName} — Ask a Cryptid`, text: shareText, url: shareUrl });
+      } catch (err) {
+        if (err?.name !== "AbortError") copyToClipboard();
+      }
+      return;
+    }
+    copyToClipboard();
+  };
+
+  return (
+    <button
+      onClick={handleShare}
+      style={{
+        display: "inline-flex", alignItems: "center", gap: "0.5rem", marginTop: "1.5rem",
+        background: "transparent", border: `1px solid ${accent}55`, borderRadius: 8,
+        padding: "0.6rem 1.2rem", color: accent, fontSize: "0.9rem",
+        fontFamily: "Georgia, serif", fontStyle: "italic", cursor: "pointer", transition: "all 0.2s",
+      }}
+      onMouseEnter={e => { e.currentTarget.style.borderColor = accent + "aa"; e.currentTarget.style.background = accent + "11"; }}
+      onMouseLeave={e => { e.currentTarget.style.borderColor = accent + "55"; e.currentTarget.style.background = "transparent"; }}
+    >
+      <span aria-hidden="true">{copied ? "✓" : "🔗"}</span>
+      {copied ? "Copied to clipboard" : "Share this answer"}
+    </button>
   );
 }
 
@@ -531,7 +643,7 @@ function ContactForm() {
   };
 
   return (
-    <div style={{ border: "1px solid #1a1a1a", borderRadius: 16, padding: "2.5rem 3rem", background: "#0a0a0a", marginBottom: "2rem" }}>
+    <div id="contact" style={{ border: "1px solid #1a1a1a", borderRadius: 16, padding: "2.5rem 3rem", background: "#0a0a0a", marginBottom: "2rem" }}>
       <div style={{ fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#666", marginBottom: "1.5rem" }}>
         Contact / Suggest a Cryptid
       </div>
