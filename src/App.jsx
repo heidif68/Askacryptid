@@ -368,13 +368,13 @@ export default function AskACryptid() {
         {/* Free cryptids */}
         <div style={{ marginBottom: "2.5rem" }}>
           <div style={{ fontSize: "0.8rem", letterSpacing: "0.2em", color: "#444", textTransform: "uppercase", marginBottom: "1rem" }}>Free cryptids</div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "1.2rem", marginBottom: "2rem" }}>
+          <div className="cryptid-grid cryptid-grid--free">
             {cryptids.filter(cr => cr.free).map(cr => (
               <CryptidCard key={cr.id} cr={cr} selected={selected} setSelected={setSelected} setAnswer={setAnswer} locked={false} />
             ))}
           </div>
 
-          <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1rem" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "1rem", marginBottom: "1rem", flexWrap: "wrap" }}>
             <div style={{ fontSize: "0.8rem", letterSpacing: "0.2em", color: "#444", textTransform: "uppercase" }}>Uncommon tier</div>
             {!isPro && (
               <div style={{ fontSize: "0.7rem", letterSpacing: "0.1em", textTransform: "uppercase", background: "#120e00", border: "1px solid #3a2e00", borderRadius: 4, padding: "0.25rem 0.7rem", color: "#aa8800" }}>
@@ -387,7 +387,7 @@ export default function AskACryptid() {
               </div>
             )}
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: "1.2rem" }}>
+          <div className="cryptid-grid cryptid-grid--locked">
             {cryptids.filter(cr => !cr.free).map(cr => (
               <CryptidCard key={cr.id} cr={cr} selected={selected} setSelected={setSelected} setAnswer={setAnswer} locked={!isPro} />
             ))}
@@ -397,7 +397,7 @@ export default function AskACryptid() {
         {/* Question counter */}
         {!isPro && !isLocked && (
           <div style={{ textAlign: "right", fontSize: "1rem", color: questionsLeft <= 1 ? "#cc8800" : "#444", marginBottom: "1rem", fontStyle: "italic", transition: "color 0.4s" }}>
-            {questionsLeft > 0 ? `${questionsLeft} free question${questionsLeft !== 1 ? "s" : ""} remaining` : "Free questions used - upgrade to continue"}
+            {questionsLeft > 0 ? `${questionsLeft} free question${questionsLeft !== 1 ? "s" : ""} remaining` : "Free questions used for today - upgrade to continue, or come back tomorrow for 3 more"}
           </div>
         )}
 
@@ -405,11 +405,12 @@ export default function AskACryptid() {
         <div style={{ border: `2px solid ${isLocked ? "#1a1a1a" : c.accent + "44"}`, borderRadius: 16, overflow: "hidden", marginBottom: "1.5rem", background: "#0e0e0e", transition: "border-color 0.5s" }}>
 
           {/* Hero */}
-          <div style={{ display: "flex", alignItems: "center", gap: "2rem", padding: "2.5rem 3rem", background: `linear-gradient(135deg, ${c.color}66 0%, #0e0e0e 100%)`, borderBottom: `1px solid ${c.accent}22`, transition: "all 0.5s" }}>
+          <div className="hero-section" style={{ background: `linear-gradient(135deg, ${c.color}66 0%, #0e0e0e 100%)`, borderBottom: `1px solid ${c.accent}22`, transition: "all 0.5s" }}>
             <img
+              className="hero-image"
               src={c.image}
               alt={c.name}
-              style={{ width: 160, height: 160, borderRadius: 16, objectFit: "cover", border: `2px solid ${c.accent}55`, filter: isLocked ? "grayscale(1) brightness(0.3)" : "none", transition: "filter 0.5s", flexShrink: 0 }}
+              style={{ borderRadius: 16, objectFit: "cover", border: `2px solid ${c.accent}55`, filter: isLocked ? "grayscale(1) brightness(0.3)" : "none", transition: "filter 0.5s" }}
             />
             <div style={{ flex: 1 }}>
               <div style={{ display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
@@ -433,7 +434,7 @@ export default function AskACryptid() {
 
           {/* Question area */}
           {!isLocked && (
-            <div style={{ padding: "2.5rem 3rem" }}>
+            <div className="panel-padding">
               <div style={{ marginBottom: "1.5rem" }}>
                 <div style={{ fontSize: "0.8rem", letterSpacing: "0.15em", color: "#444", textTransform: "uppercase", marginBottom: "0.8rem" }}>Suggested questions</div>
                 <div style={{ display: "flex", gap: "0.7rem", flexWrap: "wrap" }}>
@@ -448,14 +449,14 @@ export default function AskACryptid() {
                 </div>
               </div>
 
-              <div style={{ display: "flex", gap: "1rem" }}>
+              <div className="ask-row">
                 <input
                   value={question}
                   onChange={e => setQuestion(e.target.value)}
                   onKeyDown={e => e.key === "Enter" && !loading && askCryptid()}
                   placeholder={hitLimit ? "Upgrade to ask more questions..." : `Ask ${c.name} anything...`}
                   disabled={hitLimit}
-                  style={{ flex: 1, background: "#111", border: "1px solid #252525", borderRadius: 10, padding: "1.1rem 1.5rem", color: hitLimit ? "#333" : "#e8e0d0", fontSize: "1.1rem", fontFamily: "Georgia, serif", outline: "none" }}
+                  style={{ flex: 1, minWidth: 0, background: "#111", border: "1px solid #252525", borderRadius: 10, padding: "1.1rem 1.5rem", color: hitLimit ? "#333" : "#e8e0d0", fontSize: "1.1rem", fontFamily: "Georgia, serif", outline: "none" }}
                 />
                 <button
                   onClick={() => hitLimit ? setShowUpgrade(true) : askCryptid()}
@@ -471,7 +472,7 @@ export default function AskACryptid() {
 
         {/* Answer */}
         {(loading || answer || error) && !isLocked && (
-          <div ref={answerRef} style={{ border: `1px solid ${c.accent}22`, borderRadius: 16, padding: "2.5rem 3rem", background: "#0a0a0a", animation: "fadeIn 0.4s ease", marginBottom: "2rem" }}>
+          <div ref={answerRef} className="panel-padding" style={{ border: `1px solid ${c.accent}22`, borderRadius: 16, background: "#0a0a0a", animation: "fadeIn 0.4s ease", marginBottom: "2rem" }}>
             <div style={{ fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", color: c.accent, marginBottom: "1.2rem", transition: "color 0.5s" }}>
               - {c.name} responds -
             </div>
@@ -500,10 +501,10 @@ export default function AskACryptid() {
 
         {/* Upgrade prompt */}
         {showUpgrade && !isPro && (
-          <div style={{ border: "2px solid #3a2800", borderRadius: 16, padding: "3rem", background: "#0c0800", animation: "fadeIn 0.3s ease", textAlign: "center", marginBottom: "2rem" }}>
-            <div style={{ fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#886600", marginBottom: "1rem" }}>You've reached the free limit</div>
+          <div className="panel-padding" style={{ border: "2px solid #3a2800", borderRadius: 16, background: "#0c0800", animation: "fadeIn 0.3s ease", textAlign: "center", marginBottom: "2rem" }}>
+            <div style={{ fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#886600", marginBottom: "1rem" }}>You've reached today's free limit</div>
             <p style={{ margin: "0 0 2rem", fontSize: "1.2rem", color: "#aa9966", fontStyle: "italic", lineHeight: 1.8 }}>
-              You've used your {FREE_LIMIT} free questions. Upgrade to unlock unlimited questions and {cryptids.filter(cr => !cr.free).length} more cryptids - including the Fresno Nightcrawler, who is just out for a walk and has a lot of feelings about it.
+              You've used your {FREE_LIMIT} free questions for today. Your free questions reset daily, so come back tomorrow for {FREE_LIMIT} more - or upgrade now to unlock unlimited questions and {cryptids.filter(cr => !cr.free).length} more cryptids, including the Fresno Nightcrawler, who is just out for a walk and has a lot of feelings about it.
             </p>
             <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
               <button onClick={() => window.location.href = "https://buy.stripe.com/eVqeVd4BleZ89HJ7Na7EQ00"} style={{ background: "#160f00", border: "2px solid #887700", borderRadius: 10, padding: "1.1rem 2.5rem", color: "#ffdd00", fontSize: "1.1rem", cursor: "pointer", fontFamily: "Georgia, serif", letterSpacing: "0.06em", fontWeight: 500 }}>
@@ -533,12 +534,35 @@ export default function AskACryptid() {
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes pulse { 0%,100%{opacity:0.2} 50%{opacity:1} }
         * { box-sizing: border-box; }
+        html, body { margin: 0; max-width: 100%; overflow-x: hidden; }
         ::placeholder { color: #333; }
         input:focus { border-color: #555 !important; }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: #080808; }
         ::-webkit-scrollbar-thumb { background: #222; }
         .privacy-link:hover { color: #999 !important; }
+
+        .cryptid-grid { display: grid; gap: 1.2rem; }
+        .cryptid-grid--free { grid-template-columns: repeat(3, 1fr); margin-bottom: 2rem; }
+        .cryptid-grid--locked { grid-template-columns: repeat(4, 1fr); }
+
+        .hero-section { display: flex; align-items: center; gap: 2rem; padding: 2.5rem 3rem; }
+        .hero-image { width: 160px; height: 160px; flex-shrink: 0; }
+
+        .cryptid-card-image { width: 100%; max-width: 130px; aspect-ratio: 1 / 1; }
+
+        .panel-padding { padding: 2.5rem 3rem; }
+        .ask-row { display: flex; gap: 1rem; }
+
+        @media (max-width: 640px) {
+          .cryptid-grid--free { grid-template-columns: repeat(2, 1fr); }
+          .cryptid-grid--locked { grid-template-columns: repeat(2, 1fr); }
+          .hero-section { flex-direction: column; text-align: center; padding: 2rem 1.25rem; }
+          .hero-image { width: 130px; height: 130px; }
+          .panel-padding { padding: 1.75rem 1.25rem; }
+          .ask-row { flex-direction: column; }
+          .ask-row button { width: 100%; }
+        }
       `}</style>
     </div>
   );
@@ -643,12 +667,12 @@ function ContactForm() {
   };
 
   return (
-    <div id="contact" style={{ border: "1px solid #1a1a1a", borderRadius: 16, padding: "2.5rem 3rem", background: "#0a0a0a", marginBottom: "2rem" }}>
+    <div id="contact" className="panel-padding" style={{ border: "1px solid #1a1a1a", borderRadius: 16, background: "#0a0a0a", marginBottom: "2rem" }}>
       <div style={{ fontSize: "0.8rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "#666", marginBottom: "1.5rem" }}>
         Contact / Suggest a Cryptid
       </div>
 
-      <div style={{ display: "flex", gap: "0.7rem", marginBottom: "1.5rem" }}>
+      <div style={{ display: "flex", gap: "0.7rem", marginBottom: "1.5rem", flexWrap: "wrap" }}>
         {[{ id: "contact", label: "General feedback" }, { id: "suggestion", label: "Suggest a cryptid" }].map(opt => (
           <button
             key={opt.id}
@@ -696,7 +720,7 @@ function ContactForm() {
           required
           style={{ ...inputStyle, resize: "vertical", fontFamily: "Georgia, serif" }}
         />
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "1rem", flexWrap: "wrap" }}>
           <button
             type="submit"
             disabled={status === "sending" || !message.trim()}
@@ -742,9 +766,10 @@ function CryptidCard({ cr, selected, setSelected, setAnswer, locked }) {
     >
       <div style={{ position: "relative" }}>
         <img
+          className="cryptid-card-image"
           src={cr.image}
           alt={cr.name}
-          style={{ width: 130, height: 130, borderRadius: 12, objectFit: "cover", filter: locked ? "grayscale(1) brightness(0.3)" : "none", transition: "filter 0.3s", border: `2px solid ${isSelected ? cr.accent + "66" : "#1a1a1a"}` }}
+          style={{ borderRadius: 12, objectFit: "cover", filter: locked ? "grayscale(1) brightness(0.3)" : "none", transition: "filter 0.3s", border: `2px solid ${isSelected ? cr.accent + "66" : "#1a1a1a"}` }}
         />
         {locked && (
           <div style={{ position: "absolute", inset: 0, display: "flex", alignItems: "center", justifyContent: "center", fontSize: "2rem" }}>🔒</div>
