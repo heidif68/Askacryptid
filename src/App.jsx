@@ -519,9 +519,12 @@ export default function AskACryptid() {
 
         <ContactForm />
 
-        <div style={{ textAlign: "center", marginTop: "3rem" }}>
+        <div style={{ textAlign: "center", marginTop: "3rem", display: "flex", justifyContent: "center", gap: "1.5rem", flexWrap: "wrap" }}>
           <a href="/privacy" className="privacy-link" style={{ color: "#444", fontSize: "0.8rem", letterSpacing: "0.1em", textDecoration: "none", fontStyle: "italic" }}>
             Privacy Policy
+          </a>
+          <a href="/terms" className="privacy-link" style={{ color: "#444", fontSize: "0.8rem", letterSpacing: "0.1em", textDecoration: "none", fontStyle: "italic" }}>
+            Terms of Service
           </a>
         </div>
 
