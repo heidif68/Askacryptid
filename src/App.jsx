@@ -526,6 +526,9 @@ export default function AskACryptid() {
           <a href="/terms" className="privacy-link" style={{ color: "#444", fontSize: "0.8rem", letterSpacing: "0.1em", textDecoration: "none", fontStyle: "italic" }}>
             Terms of Service
           </a>
+          <a href="/api/manage-subscription" className="privacy-link" style={{ color: "#444", fontSize: "0.8rem", letterSpacing: "0.1em", textDecoration: "none", fontStyle: "italic" }}>
+            Manage or cancel subscription
+          </a>
         </div>
 
         <div style={{ textAlign: "center", marginTop: "1rem", color: "#222", fontSize: "0.8rem", letterSpacing: "0.1em" }}>

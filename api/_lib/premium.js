@@ -41,27 +41,37 @@ export function parseCookies(req) {
   return cookies;
 }
 
-export function isPremiumRequest(req) {
+function readPremiumPayload(req) {
   try {
     const cookies = parseCookies(req);
     const value = cookies[PREMIUM_COOKIE_NAME];
-    if (!value) return false;
+    if (!value) return null;
 
     const [encoded, signature] = value.split('.');
-    if (!encoded || !signature) return false;
+    if (!encoded || !signature) return null;
 
     const expected = sign(encoded);
     const signatureBuf = Buffer.from(signature, 'hex');
     const expectedBuf = Buffer.from(expected, 'hex');
     if (signatureBuf.length !== expectedBuf.length || !crypto.timingSafeEqual(signatureBuf, expectedBuf)) {
-      return false;
+      return null;
     }
 
     const payload = JSON.parse(Buffer.from(encoded, 'base64url').toString('utf8'));
-    if (!payload.exp || Date.now() > payload.exp) return false;
+    if (!payload.exp || Date.now() > payload.exp) return null;
 
-    return true;
+    return payload;
   } catch {
-    return false;
+    return null;
   }
+}
+
+export function isPremiumRequest(req) {
+  return readPremiumPayload(req) !== null;
+}
+
+// Stripe customer id (cus_...) stored in the signed premium cookie, or null.
+export function getPremiumCustomerId(req) {
+  const sub = readPremiumPayload(req)?.sub;
+  return typeof sub === 'string' && sub.startsWith('cus_') ? sub : null;
 }
