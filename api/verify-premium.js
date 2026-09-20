@@ -23,6 +23,16 @@ export default async function handler(req, res) {
     );
 
     if (!response.ok) {
+      // Log Stripe's actual error (e.g. "No such checkout.session" when a live
+      // session is looked up with a test key). Only the id prefix and key mode
+      // are logged, never the full session id or the secret key.
+      const stripeBody = await response.text().catch(() => '');
+      console.error('Stripe session lookup failed:', {
+        httpStatus: response.status,
+        stripeBody,
+        sessionIdPrefix: sessionId.slice(0, 8),
+        keyMode: (process.env.STRIPE_SECRET_KEY || '').slice(0, 8) || 'MISSING',
+      });
       return res.status(402).json({ error: 'Could not verify payment' });
     }
 
@@ -35,6 +45,14 @@ export default async function handler(req, res) {
       session.mode !== 'subscription' || ['active', 'trialing'].includes(session.subscription?.status);
 
     if (!paid || session.status !== 'complete' || !subscriptionActive) {
+      console.error('Payment not confirmed:', {
+        payment_status: session.payment_status,
+        status: session.status,
+        mode: session.mode,
+        subscriptionStatus: session.subscription?.status,
+        paid,
+        subscriptionActive,
+      });
       return res.status(402).json({ error: 'Payment not confirmed' });
     }
 
