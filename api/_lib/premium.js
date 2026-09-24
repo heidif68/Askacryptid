@@ -1,10 +1,12 @@
 import crypto from 'crypto';
+import { isCustomerPremium } from './stripeSubscription.js';
 
 export const PREMIUM_COOKIE_NAME = 'askacryptid_premium';
 
-// Matches the monthly billing cycle. There's no webhook wired up yet to
-// revoke this immediately on cancellation/chargeback — see verify-premium.js.
-const PREMIUM_COOKIE_MAX_AGE_SECONDS = 30 * 24 * 60 * 60;
+// The cookie only identifies the Stripe customer. Whether they're still
+// subscribed is re-checked against Stripe (with a short cache) on every use,
+// see isPremiumRequest, so it can safely outlive a billing cycle.
+const PREMIUM_COOKIE_MAX_AGE_SECONDS = 90 * 24 * 60 * 60;
 
 function getSecret() {
   const secret = process.env.PREMIUM_COOKIE_SECRET;
@@ -66,12 +68,15 @@ function readPremiumPayload(req) {
   }
 }
 
-export function isPremiumRequest(req) {
-  return readPremiumPayload(req) !== null;
-}
-
 // Stripe customer id (cus_...) stored in the signed premium cookie, or null.
 export function getPremiumCustomerId(req) {
   const sub = readPremiumPayload(req)?.sub;
   return typeof sub === 'string' && sub.startsWith('cus_') ? sub : null;
+}
+
+// A valid cookie is not enough: the subscription must still be active in Stripe.
+export async function isPremiumRequest(req) {
+  const customerId = getPremiumCustomerId(req);
+  if (!customerId) return false;
+  return isCustomerPremium(customerId);
 }
