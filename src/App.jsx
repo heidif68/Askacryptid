@@ -531,6 +531,8 @@ export default function AskACryptid() {
           </a>
         </div>
 
+        {!isPro && <RestoreAccess />}
+
         <div style={{ textAlign: "center", marginTop: "1rem", color: "#222", fontSize: "0.8rem", letterSpacing: "0.1em" }}>
           NOT RESPONSIBLE FOR EXISTENTIAL DREAD - ALL CRYPTIDS SPEAK FOR THEMSELVES - NIGHTCRAWLER JUST WANTS TO WALK
         </div>
@@ -629,6 +631,95 @@ function ShareButton({ text, cryptidName, accent }) {
       <span aria-hidden="true">{copied ? "✓" : "🔗"}</span>
       {copied ? "Copied to clipboard" : "Share this answer"}
     </button>
+  );
+}
+
+// Lets an existing subscriber get premium back on a new device: enter the
+// email used at checkout and we send a single-use sign-in link.
+function RestoreAccess() {
+  const [open, setOpen] = useState(() => typeof window !== "undefined" && window.location.hash === "#restore");
+  const [email, setEmail] = useState("");
+  const [status, setStatus] = useState("idle"); // idle | sending | sent | error
+  const [errorMessage, setErrorMessage] = useState("");
+  const panelRef = useRef(null);
+
+  useEffect(() => {
+    if (open && window.location.hash === "#restore" && panelRef.current) {
+      panelRef.current.scrollIntoView({ block: "center" });
+    }
+    // Only on first render, to honour a #restore link from the sign-in page.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const submit = async (e) => {
+    e.preventDefault();
+    if (!email.trim() || status === "sending") return;
+    setStatus("sending");
+    setErrorMessage("");
+    try {
+      const response = await fetch("/api/request-login-link", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim() }),
+      });
+      if (!response.ok) {
+        const data = await response.json().catch(() => ({}));
+        setErrorMessage(data.error || "Something went wrong. Please try again later.");
+        setStatus("error");
+        return;
+      }
+      setStatus("sent");
+    } catch (err) {
+      setErrorMessage("Something went wrong. Please try again later.");
+      setStatus("error");
+    }
+  };
+
+  return (
+    <div id="restore" ref={panelRef} style={{ textAlign: "center", marginTop: "1rem" }}>
+      {!open ? (
+        <button
+          type="button"
+          onClick={() => setOpen(true)}
+          className="privacy-link"
+          style={{ background: "none", border: "none", cursor: "pointer", padding: 0, color: "#444", fontSize: "0.8rem", letterSpacing: "0.1em", fontStyle: "italic", fontFamily: "Georgia, serif" }}
+        >
+          Already subscribed? Restore access on this device
+        </button>
+      ) : (
+        <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", alignItems: "center", gap: "0.8rem", maxWidth: 420, margin: "0 auto" }}>
+          <div style={{ color: "#777", fontSize: "0.9rem", fontStyle: "italic" }}>
+            Enter the email you subscribed with and we'll send you a sign-in link.
+          </div>
+          <div style={{ display: "flex", gap: "0.7rem", flexWrap: "wrap", justifyContent: "center", width: "100%" }}>
+            <input
+              value={email}
+              onChange={e => setEmail(e.target.value)}
+              placeholder="you@example.com"
+              type="email"
+              required
+              autoComplete="email"
+              style={{ flex: "1 1 220px", background: "#111", border: "1px solid #252525", borderRadius: 10, padding: "0.8rem 1rem", color: "#e8e0d0", fontSize: "1rem", fontFamily: "Georgia, serif", outline: "none", boxSizing: "border-box" }}
+            />
+            <button
+              type="submit"
+              disabled={status === "sending" || !email.trim()}
+              style={{ background: "#111", border: "2px solid #333", borderRadius: 10, padding: "0.8rem 1.5rem", color: "#ccc", fontSize: "1rem", cursor: status === "sending" ? "not-allowed" : "pointer", fontFamily: "Georgia, serif" }}
+            >
+              {status === "sending" ? "Sending..." : "Email me a link"}
+            </button>
+          </div>
+          {status === "sent" && (
+            <span style={{ color: "#44cc44", fontStyle: "italic", fontSize: "0.95rem" }}>
+              If that email has an active subscription, a sign-in link is on its way. It expires in 15 minutes. Check your spam folder if you don't see it.
+            </span>
+          )}
+          {status === "error" && (
+            <span style={{ color: "#cc4444", fontStyle: "italic", fontSize: "0.95rem" }}>{errorMessage}</span>
+          )}
+        </form>
+      )}
+    </div>
   );
 }
 

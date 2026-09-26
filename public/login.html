@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="no-referrer" />
+    <meta name="robots" content="noindex" />
+    <title>Sign in - Ask a Cryptid</title>
+    <style>
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        background: #080808;
+        color: #e8e0d0;
+        font-family: Georgia, serif;
+        line-height: 1.7;
+      }
+      .wrap {
+        max-width: 520px;
+        margin: 0 auto;
+        padding: 6rem 1.5rem;
+        text-align: center;
+      }
+      h1 {
+        font-size: clamp(1.8rem, 6vw, 2.4rem);
+        font-weight: 400;
+        color: #f5efe8;
+        margin: 0 0 1rem;
+      }
+      p { color: #d4ccbc; margin: 0 0 1.5rem; }
+      button {
+        background: #130f00;
+        border: 2px solid #776600;
+        border-radius: 10px;
+        padding: 1rem 2.5rem;
+        color: #ddbb00;
+        font-size: 1.1rem;
+        cursor: pointer;
+        font-family: Georgia, serif;
+        letter-spacing: 0.06em;
+      }
+      button:disabled { opacity: 0.5; cursor: not-allowed; }
+      .message { margin-top: 1.5rem; font-style: italic; min-height: 1.5em; }
+      .message.error { color: #cc4444; }
+      .message.ok { color: #44cc44; }
+      a { color: #D4A574; }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Welcome back</h1>
+      <p id="intro">Press the button to sign in and restore your premium access on this device.</p>
+      <button id="signin" type="button">Sign in</button>
+      <div id="message" class="message" role="status"></div>
+      <p style="margin-top: 2rem;"><a href="/">&larr; Back to Ask a Cryptid</a></p>
+    </div>
+
+    <script>
+      (function () {
+        var token = new URLSearchParams(window.location.search).get("token");
+        // Keep the token out of history and anything that reads the URL later.
+        if (token) window.history.replaceState({}, "", window.location.pathname);
+
+        var button = document.getElementById("signin");
+        var message = document.getElementById("message");
+
+        function show(text, kind) {
+          message.textContent = text;
+          message.className = "message " + (kind || "");
+        }
+
+        if (!token) {
+          button.hidden = true;
+          document.getElementById("intro").textContent = "This page needs a sign-in link from your email.";
+          message.innerHTML = 'Request one from the <a href="/#restore">site footer</a>.';
+          return;
+        }
+
+        button.addEventListener("click", function () {
+          button.disabled = true;
+          show("Signing you in...");
+          fetch("/api/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            credentials: "same-origin",
+            body: JSON.stringify({ token: token }),
+          })
+            .then(function (response) {
+              return response.json().catch(function () { return {}; }).then(function (data) {
+                return { ok: response.ok, data: data };
+              });
+            })
+            .then(function (result) {
+              if (result.ok) {
+                show("You're in. Taking you back...", "ok");
+                window.setTimeout(function () { window.location.href = "/"; }, 900);
+              } else {
+                show(result.data.error || "Something went wrong. Please request a new link.", "error");
+                message.insertAdjacentHTML("beforeend", ' <a href="/#restore">Request a new link</a>');
+              }
+            })
+            .catch(function () {
+              button.disabled = false;
+              show("Network problem. Please try again.", "error");
+            });
+        });
+      })();
+    </script>
+  </body>
+</html>

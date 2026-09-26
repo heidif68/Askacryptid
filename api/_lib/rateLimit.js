@@ -62,3 +62,14 @@ export async function getQuestionStatus(ip) {
     };
   }
 }
+
+// Generic fixed-window limiter. Returns true when the caller is over the
+// limit. SET NX EX creates the key with its expiry atomically, then INCR keeps
+// that TTL, so a crash between two calls can never leave a counter that never
+// expires. Unlike the question limiter this throws if KV is down: callers use
+// it to protect email sending, which must not fail open.
+export async function isRateLimited(key, limit, windowSeconds) {
+  await kv.set(key, 0, { ex: windowSeconds, nx: true });
+  const count = await kv.incr(key);
+  return count > limit;
+}

@@ -7,7 +7,7 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
-  const bypassesLimit = isPremiumRequest(req) || isOwnerBypass(req);
+  const bypassesLimit = (await isPremiumRequest(req)) || isOwnerBypass(req);
 
   if (!bypassesLimit) {
     const ip = getClientIp(req);
