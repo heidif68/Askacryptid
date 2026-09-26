@@ -40,7 +40,7 @@ export function subscriptionGrantsPremium(subscription) {
 }
 
 export function escapeSearchValue(value) {
-  return value.replace(/\/g, '\\').replace(/"/g, '\\"');
+  return value.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
 }
 
 async function stripeGet(path, params) {
