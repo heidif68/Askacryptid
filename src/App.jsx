@@ -502,10 +502,8 @@ export default function AskACryptid() {
           </div>
         )}
 
-        {/* AD SPACE MIDDLE */}
-        <div style={{ textAlign: "center", marginBottom: "2rem", padding: "1rem", border: "1px dashed #1e1e1e", borderRadius: 8, color: "#2a2a2a", fontSize: "0.75rem", letterSpacing: "0.1em" }}>
-          ADVERTISEMENT
-        </div>
+        {/* PROMO BANNER MIDDLE (starts halfway through the list so it differs from the top one) */}
+        <PromoBanner startIndex={Math.floor(PROMO_SLIDES.length / 2)} />
 
         {/* Upgrade prompt */}
         {showUpgrade && !isPro && (
@@ -595,8 +593,8 @@ export default function AskACryptid() {
   );
 }
 
-function PromoBanner() {
-  const [index, setIndex] = useState(0);
+function PromoBanner({ startIndex = 0 }) {
+  const [index, setIndex] = useState(startIndex % PROMO_SLIDES.length);
 
   useEffect(() => {
     if (PROMO_SLIDES.length < 2) return;
