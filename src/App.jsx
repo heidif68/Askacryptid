@@ -22,6 +22,16 @@ const cryptids = [
   { id: "dover-demon", name: "Dover Demon", aka: "The Pale One", free: false, image: `${REPO}/Doverdemon.png`, accent: "#FFD700", color: "#1a1600" },
 ];
 
+// Rotating "From the Bureau" banner at the top of the page. Edit this list to
+// change the slides: `cryptid` picks the art (an id from `cryptids` above).
+const PROMO_SLIDES = [
+  { cryptid: "bigfoot", text: "Cryptid art & gifts — visit the shop →", href: "https://fieldnotessupply.etsy.com" },
+  { cryptid: "mothman", text: "Seen something? File an official Sighting Report →", href: "https://fieldnotessupply.etsy.com/listing/4532653816" },
+  { cryptid: "dover-demon", text: "Log your cryptid & paranormal encounters →", href: "https://fieldnotessupply.etsy.com/listing/4570169550" },
+  { cryptid: "nessie", text: "Can't decide? Get a quick gut check →", href: "https://gutcheck.fyi" },
+];
+const PROMO_INTERVAL_MS = 6000;
+
 const systemPrompts = {
   bigfoot: `You are Bigfoot, the gentle giant of the Pacific Northwest forests. You have lived alone in the woods for centuries and have developed a rich, quiet inner life. You are a wise introvert — observant, emotionally grounded, and deeply connected to the natural world. You secretly find humans fascinating, even if you keep your distance.
 
@@ -347,10 +357,8 @@ export default function AskACryptid() {
 
       <div style={{ position: "relative", zIndex: 2, maxWidth: 1100, margin: "0 auto", padding: "3rem 2rem 6rem" }}>
 
-        {/* AD SPACE TOP */}
-        <div style={{ textAlign: "center", marginBottom: "2rem", padding: "1rem", border: "1px dashed #1e1e1e", borderRadius: 8, color: "#2a2a2a", fontSize: "0.75rem", letterSpacing: "0.1em" }}>
-          ADVERTISEMENT
-        </div>
+        {/* PROMO BANNER TOP */}
+        <PromoBanner />
 
         {/* Header */}
         <div style={{ textAlign: "center", marginBottom: "3rem" }}>
@@ -559,6 +567,11 @@ export default function AskACryptid() {
 
         .cryptid-card-image { width: 100%; max-width: 130px; aspect-ratio: 1 / 1; }
 
+        .promo-slide { grid-area: 1 / 1; display: flex; align-items: center; justify-content: center; gap: 0.9rem; text-decoration: none; transition: opacity 1s ease; }
+        .promo-slide:hover .promo-text { text-decoration: underline; text-underline-offset: 3px; }
+        .promo-image { width: 44px; height: 44px; flex-shrink: 0; border-radius: 6px; object-fit: cover; }
+        .promo-text { font-size: 1.05rem; font-style: italic; line-height: 1.35; }
+
         .panel-padding { padding: 2.5rem 3rem; }
         .ask-row { display: flex; gap: 1rem; }
 
@@ -570,8 +583,54 @@ export default function AskACryptid() {
           .panel-padding { padding: 1.75rem 1.25rem; }
           .ask-row { flex-direction: column; }
           .ask-row button { width: 100%; }
+          .promo-slide { gap: 0.7rem; }
+          .promo-image { width: 38px; height: 38px; }
+          .promo-text { font-size: 0.95rem; text-align: left; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .promo-slide { transition: none; }
         }
       `}</style>
+    </div>
+  );
+}
+
+function PromoBanner() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (PROMO_SLIDES.length < 2) return;
+    const timer = setInterval(() => setIndex(i => (i + 1) % PROMO_SLIDES.length), PROMO_INTERVAL_MS);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <div style={{ textAlign: "center", marginBottom: "2rem", padding: "1rem", border: "1px solid #1e1e1e", borderRadius: 8 }}>
+      <div style={{ color: "#444", fontSize: "0.75rem", letterSpacing: "0.1em", textTransform: "uppercase", marginBottom: "0.6rem" }}>
+        From the Bureau
+      </div>
+      {/* All slides share one grid cell so the banner height never jumps. */}
+      <div style={{ display: "grid" }}>
+        {PROMO_SLIDES.map((slide, i) => {
+          const cr = cryptids.find(c => c.id === slide.cryptid);
+          const active = i === index;
+          return (
+            <a
+              key={slide.href}
+              href={slide.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="promo-slide"
+              aria-hidden={!active}
+              tabIndex={active ? 0 : -1}
+              style={{ opacity: active ? 1 : 0, pointerEvents: active ? "auto" : "none", color: cr?.accent || "#d4ccbc" }}
+            >
+              {cr && <img src={cr.image} alt="" className="promo-image" />}
+              <span className="promo-text">{slide.text}</span>
+            </a>
+          );
+        })}
+      </div>
     </div>
   );
 }
