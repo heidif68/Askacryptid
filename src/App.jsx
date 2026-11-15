@@ -25,7 +25,7 @@ const cryptids = [
 // Rotating "From the Bureau" banner at the top of the page. Edit this list to
 // change the slides: `cryptid` picks the art (an id from `cryptids` above).
 const PROMO_SLIDES = [
-  { cryptid: "bigfoot", text: "Cryptid art & gifts — visit the shop →", href: "https://fieldnotessupply.etsy.com" },
+  { cryptid: "bigfoot", text: "Cryptid art & gifts on Etsy →", href: "https://fieldnotessupply.etsy.com" },
   { cryptid: "mothman", text: "Seen something? File an official Sighting Report →", href: "https://fieldnotessupply.etsy.com/listing/4532653816" },
   { cryptid: "dover-demon", text: "Log your cryptid & paranormal encounters →", href: "https://fieldnotessupply.etsy.com/listing/4570169550" },
   { cryptid: "nessie", text: "Can't decide? Get a quick gut check →", href: "https://gutcheck.fyi" },
